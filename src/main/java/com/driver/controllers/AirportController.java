@@ -66,7 +66,7 @@ public class AirportController {
 
 
     @PostMapping("/book-a-ticket")
-    public String bookATicket(@RequestParam("flightId")Integer flightId,@RequestParam("passengerId")Integer passengerId){
+    public String BookAFlight(@RequestParam("flightId")Integer flightId,@RequestParam("passengerId")Integer passengerId){
 
         //If the numberOfPassengers who have booked the flight is greater than : maxCapacity, in that case :
         //return a String "FAILURE"
@@ -115,7 +115,7 @@ public class AirportController {
         //We need to get the starting airportName from where the flight will be taking off (Hint think of City variable if that can be of some use)
         //return null incase the flightId is invalid or you are not able to find the airportName
         Optional<Airport> opt = airportService.getTakeOff(flightId);
-        if(opt.isEmpty())return null;
+        if(opt.isEmpty())return "null";
         return opt.get().getAirportName();
     }
 
