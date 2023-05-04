@@ -103,16 +103,22 @@ public class AirportRepository {
     }
 
     public int getNumberOfPeople(String airportName, Date date) {
-        int count =0;
-        Airport curr = airportsMap.get(airportName);
-        if(curr!=null) {
-            City city = curr.getCity();
-            for (Flight i : flights) {
-                if (i.getFromCity().equals(city) || i.getToCity().equals(city) && i.getFlightDate().equals(date)) {
-                    count = +ticketMap.getOrDefault(i.getFlightId(), new HashSet<>()).size();
+        int noOfPeople = 0;
+        Airport airport = airportsMap.get(airportName);
+        if(airport!=null){
+            City city = airport.getCity();
+
+            for(int flightId : flightsMap.keySet()){
+                    Flight flight = flightsMap.get(flightId);
+                if((flight.getFromCity().equals(city) || flight.getToCity().equals(city)) && flight.getFlightDate().equals(date)){
+                    Set<Integer> set = ticketMap.get(flightId);
+                    if (set != null) {
+                        noOfPeople += set.size();
+                    }
                 }
+
             }
         }
-        return count;
+        return noOfPeople;
     }
 }
