@@ -20,7 +20,7 @@ public class AirportService {
             if(b.getNoOfTerminals() == a.getNoOfTerminals()){
                 return b.getAirportName().compareTo(a.getAirportName());
             }
-            return b.getNoOfTerminals() - a.getNoOfTerminals();
+            return a.getNoOfTerminals() - b.getNoOfTerminals();
         });
 
         if(allAirports.get(0)!=null)
@@ -56,7 +56,7 @@ public class AirportService {
         List<Flight> allFlights = airportRepository.getAllFlights();
         int people =0;
         for(Flight i : allFlights){
-            if((i.getFromCity().equals(airportName) || i.getToCity().equals(airportName)) && i.getFlightDate().compareTo(date)==0){
+            if((i.getFromCity().toString().equals(airportName) || i.getToCity().toString().equals(airportName)) && i.getFlightDate().compareTo(date)==0){
                 people += i.getNoOfBookings();
             }
         }
