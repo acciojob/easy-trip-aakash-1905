@@ -46,7 +46,8 @@ public class AirportRepository {
 
     public boolean bookticket(Integer flightId, Integer passengerId) {
         Flight temp = flightsMap.get(flightId);
-        if(temp.getMaxCapacity() <= numofbookings.get(flightId))return false;
+        if(temp == null)return false;
+        if(temp.getMaxCapacity() <= numofbookings.getOrDefault(flightId,0))return false;
         if(ticketMap.containsKey(flightId)){
             if(ticketMap.get(flightId)==passengerId)return false;
         }else{
