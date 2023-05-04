@@ -11,6 +11,7 @@ public class Flight {
     private City toCity;
 
     private int maxCapacity;
+    private int noOfBookings;
 
     private Date flightDate;
 
@@ -27,6 +28,15 @@ public class Flight {
         this.maxCapacity = maxCapacity;
         this.flightDate = flightDate;
         this.duration = duration;
+        this.noOfBookings = 0;
+    }
+
+    public int getNoOfBookings() {
+        return noOfBookings;
+    }
+
+    public void setNoOfBookings(int noOfBookings) {
+        this.noOfBookings = noOfBookings;
     }
 
     public int getFlightId() {
