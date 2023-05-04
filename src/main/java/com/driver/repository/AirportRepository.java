@@ -105,11 +105,12 @@ public class AirportRepository {
     public int getNumberOfPeople(String airportName, Date date) {
         int count =0;
         Airport curr = airportsMap.get(airportName);
-        if(curr!=null)return 0;
-        City city = curr.getCity();
-        for(Flight i : flights){
-            if(i.getFromCity().equals(city) || i.getToCity().equals(city) && i.getFlightDate().equals(date)){
-                count =+ ticketMap.getOrDefault(i.getFlightId(),new HashSet<>()).size();
+        if(curr!=null) {
+            City city = curr.getCity();
+            for (Flight i : flights) {
+                if (i.getFromCity().equals(city) || i.getToCity().equals(city) && i.getFlightDate().equals(date)) {
+                    count = +ticketMap.getOrDefault(i.getFlightId(), new HashSet<>()).size();
+                }
             }
         }
         return count;
