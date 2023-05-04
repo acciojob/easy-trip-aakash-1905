@@ -116,7 +116,7 @@ public class AirportController {
         //return null incase the flightId is invalid or you are not able to find the airportName
         Optional<Flight> opt = airportService.getTakeOff(flightId);
         if(opt.isEmpty())return null;
-        return opt.get().getFromCity().toString();
+        return opt.get().getFromCity().name();
     }
 
 
