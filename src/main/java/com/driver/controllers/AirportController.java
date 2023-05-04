@@ -75,7 +75,8 @@ public class AirportController {
 
         boolean status = airportService.bookTicket(flightId,passengerId);
 
-        return "SUCCESS";
+        if(status == true )return "SUCCESS";
+        else return  "FAILURE";
     }
 
     @PutMapping("/cancel-a-ticket")

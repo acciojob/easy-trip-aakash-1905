@@ -44,24 +44,18 @@ public class AirportRepository {
 
     public boolean bookticket(Integer flightId, Integer passengerId) {
         Flight temp = flightsMap.get(flightId);
-        if(temp == null)return false;
-        if(temp.getMaxCapacity() < numofbookings.getOrDefault(flightId,0))return false;
+
         if(ticketMap.containsKey(flightId)){
+            if(ticketMap.get(flightId).size()>=temp.getMaxCapacity())return false;
             if(ticketMap.get(flightId).contains(passengerId))return false;
-            else {
-                Set<Integer> st = ticketMap.get(flightId);
-                st.add(passengerId);
-                ticketMap.put(flightId,st);
-                numofbookings.put(flightId,numofbookings.getOrDefault(flightId,0)+1);
-            }
-        }else{
-            Set<Integer> st = new HashSet<>();
-            st.add(passengerId);
-            ticketMap.put(flightId,st);
+            ticketMap.get(flightId).add(passengerId);
             numofbookings.put(flightId,numofbookings.getOrDefault(flightId,0)+1);
             return true;
         }
-        return false;
+        Set<Integer> set = new HashSet<>();
+        set.add(passengerId);
+        ticketMap.put(flightId,set);
+        return true;
     }
 
     public boolean cancelTicket(Integer flightId, Integer passengerId) {
