@@ -13,6 +13,7 @@ public class AirportRepository {
 
     HashSet<Flight> flights = new HashSet<>();
     HashMap<Integer,Flight> flightsMap = new HashMap<>();
+    HashMap<Integer,Integer> numofbookings = new HashMap<>();
     HashSet<Airport> airports = new HashSet<>();
     HashMap<String,Airport> airportsMap = new HashMap<>();
     HashSet<Passenger> passengers = new HashSet<>();
@@ -45,12 +46,12 @@ public class AirportRepository {
 
     public boolean bookticket(Integer flightId, Integer passengerId) {
         Flight temp = flightsMap.get(flightId);
-        if(temp.getMaxCapacity() <= temp.getNoOfBookings())return false;
+        if(temp.getMaxCapacity() <= numofbookings.get(flightId))return false;
         if(ticketMap.containsKey(flightId)){
             if(ticketMap.get(flightId)==passengerId)return false;
         }else{
             ticketMap.put(flightId,passengerId);
-            temp.setNoOfBookings(temp.getNoOfBookings() +1);
+           numofbookings.put(flightId,numofbookings.getOrDefault(flightId,0)+1);
             return true;
         }
         return false;
@@ -69,7 +70,8 @@ public class AirportRepository {
         }
         Flight temp = flightsMap.get(flightId);
         ticketMap.remove(flightId);
-        temp.setNoOfBookings(temp.getNoOfBookings() - 1);
+        numofbookings.put(flightId,numofbookings.getOrDefault(flightId,0)-1);
+        if(numofbookings.get(flightId)==0)numofbookings.remove(flightId);
         return true;
     }
 
@@ -87,6 +89,9 @@ public class AirportRepository {
 
     public Airport getTakeOff(Integer flightId) {
         Flight temp = flightsMap.get(flightId);
-        return airportsMap.get(temp.getFromCity().name());
+       for(Airport i : airports){
+           if(i.getCity()==temp.getFromCity())return i;
+       }
+       return null;
     }
 }
