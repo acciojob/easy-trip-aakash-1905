@@ -94,8 +94,8 @@ public class AirportService {
     }
 
     public int calcRevenue(Integer flightId) {
-        int num = airportRepository.getFlight(flightId).getNoOfBookings();
-        int count =0;
+        int num = airportRepository.getNoOfBookings(flightId);
+        int count = 0;
         for(int i =0;i<num;i++){
             count += 3000 + (i *50);
         }

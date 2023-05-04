@@ -4,10 +4,7 @@ import com.driver.model.Airport;
 import com.driver.model.Flight;
 import com.driver.model.Passenger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class AirportRepository {
 
@@ -18,7 +15,7 @@ public class AirportRepository {
     HashMap<String,Airport> airportsMap = new HashMap<>();
     HashSet<Passenger> passengers = new HashSet<>();
     HashMap<Integer,Passenger> passengersMap = new HashMap<>();
-    HashMap<Integer,Integer> ticketMap = new HashMap<>();
+    HashMap<Integer, Set<Integer>> ticketMap = new HashMap<>();
     public void addAirport(Airport airport) {
         airports.add(airport);
         airportsMap.put(airport.getAirportName(),airport);
@@ -47,12 +44,20 @@ public class AirportRepository {
     public boolean bookticket(Integer flightId, Integer passengerId) {
         Flight temp = flightsMap.get(flightId);
         if(temp == null)return false;
-        if(temp.getMaxCapacity() <= numofbookings.getOrDefault(flightId,0))return false;
+        if(temp.getMaxCapacity() < numofbookings.getOrDefault(flightId,0))return false;
         if(ticketMap.containsKey(flightId)){
-            if(ticketMap.get(flightId)==passengerId)return false;
+            if(ticketMap.get(flightId).contains(passengerId))return false;
+            else {
+                Set<Integer> st = ticketMap.get(flightId);
+                st.add(passengerId);
+                ticketMap.put(flightId,st);
+                numofbookings.put(flightId,numofbookings.getOrDefault(flightId,0)+1);
+            }
         }else{
-            ticketMap.put(flightId,passengerId);
-           numofbookings.put(flightId,numofbookings.getOrDefault(flightId,0)+1);
+            Set<Integer> st = new HashSet<>();
+            st.add(passengerId);
+            ticketMap.put(flightId,st);
+            numofbookings.put(flightId,numofbookings.getOrDefault(flightId,0)+1);
             return true;
         }
         return false;
@@ -65,12 +70,13 @@ public class AirportRepository {
         // Otherwise return a "SUCCESS" message
         // and also cancel the ticket that passenger had booked earlier on the given flightId
         if(ticketMap.containsKey(flightId)){
-            if(ticketMap.get(flightId)!=passengerId)return false;
+            if(!ticketMap.get(flightId).contains(passengerId))return false;
         }else{
             return false;
         }
-        Flight temp = flightsMap.get(flightId);
-        ticketMap.remove(flightId);
+        Set<Integer> st = ticketMap.get(flightId);
+        st.remove(passengerId);
+        ticketMap.put(flightId,st);
         numofbookings.put(flightId,numofbookings.getOrDefault(flightId,0)-1);
         if(numofbookings.get(flightId)==0)numofbookings.remove(flightId);
         return true;
@@ -82,14 +88,15 @@ public class AirportRepository {
 
     public int getCountOfBookings(Integer passengerId) {
         int count =0;
-        for(int i : ticketMap.values()){
-            if(i==passengerId)count++;
+        for(Set<Integer> i : ticketMap.values()){
+            if(i.contains(passengerId))count++;
         }
         return count;
     }
 
     public Airport getTakeOff(Integer flightId) {
-        Flight temp = flightsMap.get(flightId);
+        Flight temp = flightsMap.getOrDefault(flightId,null);
+        if (temp == null) return null;
        for(Airport i : airports){
            if(i.getCity()==temp.getFromCity())return i;
        }
