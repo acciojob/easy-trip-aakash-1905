@@ -99,7 +99,7 @@ public class AirportRepository {
     }
 
     public int getNoOfBookings(Integer flightId) {
-        return numofbookings.getOrDefault(flightId,0);
+        return ticketMap.getOrDefault(flightId,new HashSet<>()).size();
     }
 
     public int getNumberOfPeople(String airportName, Date date) {

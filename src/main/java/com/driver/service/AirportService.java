@@ -91,7 +91,8 @@ public class AirportService {
         int num = airportRepository.getNoOfBookings(flightId);
         int count = 0;
         for(int i =0;i<num;i++){
-            count += 3000 + (i *50);
+            count += 3000;
+            count += (i * 50);
         }
         return count;
     }
