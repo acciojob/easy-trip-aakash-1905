@@ -20,7 +20,7 @@ public class AirportService {
             if(b.getNoOfTerminals() == a.getNoOfTerminals()){
                 return a.getAirportName().compareTo(b.getAirportName());
             }
-            return a.getNoOfTerminals() - b.getNoOfTerminals();
+            return b.getNoOfTerminals() - a.getNoOfTerminals();
         });
 
         if(allAirports.get(0)!=null)
