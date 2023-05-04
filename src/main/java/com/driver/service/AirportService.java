@@ -78,9 +78,9 @@ public class AirportService {
         //Price for any flight will be : 3000 + noOfPeopleWhoHaveAlreadyBooked*50
         //Suppose if 2 people have booked the flight already : the price of flight for the third person will be 3000 + 2*50 = 3100
         //This will not include the current person who is trying to book, he might also be just checking price
-        Flight curr = airportRepository.getFlight(flightId);
+        int num = airportRepository.getNoOfBookings(flightId);
         int price = 3000;
-        return price + (curr.getNoOfBookings() * 50);
+        return price + (num * 50);
     }
 
     public int getCountOfBookings(Integer passengerId) {

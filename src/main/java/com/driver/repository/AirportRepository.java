@@ -95,4 +95,8 @@ public class AirportRepository {
        }
        return null;
     }
+
+    public int getNoOfBookings(Integer flightId) {
+        return numofbookings.getOrDefault(flightId,0);
+    }
 }
