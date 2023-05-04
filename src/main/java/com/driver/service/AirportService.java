@@ -53,14 +53,8 @@ public class AirportService {
     }
 
     public int getNumberOfPeople(String airportName, Date date) {
-        List<Flight> allFlights = airportRepository.getAllFlights();
-        int people =0;
-        for(Flight i : allFlights){
-            if((i.getFromCity().name().equals(airportName) || i.getToCity().name().equals(airportName)) && i.getFlightDate().compareTo(date)==0){
-                people += i.getNoOfBookings();
-            }
-        }
-        return people;
+        return airportRepository.getNumberOfPeople(airportName,date);
+
     }
 
     public boolean bookTicket(Integer flightId, Integer passengerId) {

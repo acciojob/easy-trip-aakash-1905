@@ -1,6 +1,7 @@
 package com.driver.repository;
 
 import com.driver.model.Airport;
+import com.driver.model.City;
 import com.driver.model.Flight;
 import com.driver.model.Passenger;
 
@@ -105,5 +106,18 @@ public class AirportRepository {
 
     public int getNoOfBookings(Integer flightId) {
         return numofbookings.getOrDefault(flightId,0);
+    }
+
+    public int getNumberOfPeople(String airportName, Date date) {
+        int count =0;
+        Airport curr = airportsMap.getOrDefault(airportName,null);
+        if(curr==null)return 0;
+        City city = curr.getCity();
+        for(Flight i : flights){
+            if(i.getFromCity()==city || i.getToCity()==city && i.getFlightDate().compareTo(date)==0){
+                count =+ numofbookings.get(i.getFlightId());
+            }
+        }
+        return count;
     }
 }

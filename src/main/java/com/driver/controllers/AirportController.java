@@ -75,8 +75,7 @@ public class AirportController {
 
         boolean status = airportService.bookTicket(flightId,passengerId);
 
-        if(status == true )return "SUCCESS";
-        else return  "FAILURE";
+        return "SUCCESS";
     }
 
     @PutMapping("/cancel-a-ticket")
@@ -97,7 +96,7 @@ public class AirportController {
     public int countOfBookingsDoneByPassengerAllCombined(@PathVariable("passengerId")Integer passengerId){
 
         //Tell the count of flight bookings done by a passenger: This will tell the total count of flight bookings done by a passenger :
-       return airportService.getCountOfBookings(passengerId)+1;
+       return airportService.getCountOfBookings(passengerId);
     }
 
     @PostMapping("/add-flight")
@@ -115,7 +114,7 @@ public class AirportController {
         //We need to get the starting airportName from where the flight will be taking off (Hint think of City variable if that can be of some use)
         //return null incase the flightId is invalid or you are not able to find the airportName
         Optional<Airport> opt = airportService.getTakeOff(flightId);
-        if(opt.isEmpty())return "null";
+        if(opt.isEmpty())return null;
         return opt.get().getAirportName();
     }
 
