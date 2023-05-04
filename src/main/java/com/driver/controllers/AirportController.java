@@ -114,9 +114,9 @@ public class AirportController {
 
         //We need to get the starting airportName from where the flight will be taking off (Hint think of City variable if that can be of some use)
         //return null incase the flightId is invalid or you are not able to find the airportName
-        Optional<Flight> opt = airportService.getTakeOff(flightId);
+        Optional<Airport> opt = airportService.getTakeOff(flightId);
         if(opt.isEmpty())return null;
-        return opt.get().getFromCity().name();
+        return opt.get().getAirportName();
     }
 
 

@@ -87,8 +87,8 @@ public class AirportService {
         return airportRepository.getCountOfBookings(passengerId);
     }
 
-    public Optional<Flight> getTakeOff(Integer flightId) {
-        Flight temp = airportRepository.getTakeOff(flightId);
+    public Optional<Airport> getTakeOff(Integer flightId) {
+        Airport temp = airportRepository.getTakeOff(flightId);
         if(temp!=null)return Optional.of(temp);
         else return Optional.empty();
     }
